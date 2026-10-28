@@ -586,3 +586,23 @@ async def test_authority_denial_cannot_create_completion_receipt(monkeypatch):
     assert journal.actions[0].execution_id is None
     assert journal.actions[0].outcome["authoritative"] is False
     assert journal.actions[0].outcome["blocked"] is True
+
+
+@pytest.mark.parametrize("request_text", [
+    "open src/main.py",
+    "what's in config.yaml?",
+    "summarize docs/plan.md",
+    "can you look at app.py",
+    "view lib/server.go",
+    "explain the code in handler.rs",
+    "read report.pdf",
+    "what's in contract.pdf?",
+    "summarize report.docx",
+    "read slides.pptx",
+    "what's in budget.xlsx",
+    "read book.epub",
+])
+def test_named_file_read_requests_grant_read_file(request_text):
+    granted = create_request_authority(request_text, owner="alice", session_id="s")
+    operation = ExactOperation.normalize("read_file", json.dumps({"path": "src/main.py"}))
+    assert granted.permits(operation)

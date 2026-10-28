@@ -5653,12 +5653,18 @@ def requested_capabilities(message: str, history: Iterable = (), *, active_docum
         and
         re.search(
             r"\b[A-Za-z0-9_.-]+\.(?:txt|md|markdown|json|jsonl|csv|tsv|ya?ml|toml|"
-            r"ini|cfg|conf|log|py|js|ts|tsx|jsx|html?|css|sh|sql|xml)\b",
+            r"ini|cfg|conf|env|log|py|pyi|ipynb|js|mjs|cjs|ts|tsx|jsx|vue|svelte|html?|css|scss|"
+            r"sh|bash|zsh|sql|xml|rs|go|java|kt|swift|rb|php|c|cc|cpp|h|hpp|cs|lua|r|dockerfile|"
+            # Structured documents that read_file extracts locally.
+            r"pdf|docx?|epub|pptx|xlsx?)\b",
             text,
             re.I,
         )
         and re.search(
-            r"\b(?:exists?|lines?|read|show|check|chek|append|edit|write|save|remove|delete)\b",
+            r"\b(?:exists?|lines?|read|show|check|chek|append|edit|write|save|remove|delete|"
+            r"open|view|cat|print|display|inspect|review|summari[sz]e|explain|describe|analy[sz]e|"
+            r"look\s+(?:at|in|into|through)|contents?)\b|"
+            r"\bwhat(?:['’]?s|\s+is)\s+in(?:side)?\b",
             text,
             re.I,
         )
